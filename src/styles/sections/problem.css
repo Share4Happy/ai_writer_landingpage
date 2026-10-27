@@ -1,0 +1,91 @@
+/**
+ * NT AI Writer - Pain Points / Problem Section Styles
+ */
+
+.problem-section {
+  padding-top: var(--space-20);
+  padding-bottom: var(--space-20);
+  background: var(--color-bg-subtle);
+  position: relative;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+
+.problem-card {
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition: all var(--trans-base);
+  position: relative;
+  box-shadow: var(--shadow-sm);
+}
+
+.problem-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--space-8);
+  right: var(--space-8);
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.5), transparent);
+  opacity: 0;
+  transition: opacity var(--trans-base);
+}
+
+.problem-card:hover {
+  border-color: #fca5a5;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px -10px rgba(239, 68, 68, 0.12);
+}
+
+.problem-card:hover::before {
+  opacity: 1;
+}
+
+.problem-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: #fef2f2;
+  border: 1px solid #fee2e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ef4444;
+}
+
+.problem-number {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: #ef4444;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.problem-title {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.problem-desc {
+  font-size: var(--fs-base);
+  color: var(--color-text-muted);
+  line-height: var(--lh-normal);
+}
+
+@media (max-width: 900px) {
+  .problem-grid {
+    grid-template-columns: 1fr;
+  }
+}

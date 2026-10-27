@@ -1,0 +1,76 @@
+/**
+ * NT AI Writer - Why Choose Us Section Styles
+ */
+
+.why-section {
+  padding-top: var(--space-20);
+  padding-bottom: var(--space-20);
+  position: relative;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-6);
+}
+
+.why-card {
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: all var(--trans-base);
+  box-shadow: var(--shadow-sm);
+}
+
+.why-card:hover {
+  border-color: #a7f3d0;
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.why-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: #ecfdf5;
+  border: 1px solid #d1fae5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #059669;
+  margin-bottom: var(--space-4);
+}
+
+.why-card:hover .why-icon {
+  background: #059669;
+  color: #ffffff;
+}
+
+.why-title {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: var(--space-2);
+}
+
+.why-desc {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  line-height: var(--lh-normal);
+}
+
+@media (max-width: 1200px) {
+  .why-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .why-grid {
+    grid-template-columns: 1fr;
+  }
+}

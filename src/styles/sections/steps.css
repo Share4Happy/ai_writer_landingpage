@@ -1,0 +1,88 @@
+/**
+ * NT AI Writer - How It Works (3 Steps) Styles
+ */
+
+.steps-section {
+  padding-top: var(--space-20);
+  padding-bottom: var(--space-20);
+  background: var(--color-bg);
+  position: relative;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+  position: relative;
+}
+
+/* Connecting line across steps on desktop */
+.steps-grid::before {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.15), rgba(124, 58, 237, 0.3), rgba(219, 39, 119, 0.15));
+  z-index: 0;
+}
+
+.step-card {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-number-box {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid rgba(37, 99, 235, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-2xl);
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: var(--space-6);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.12);
+  transition: all var(--trans-base);
+}
+
+.step-card:hover .step-number-box {
+  transform: scale(1.08);
+  background: var(--grad-primary);
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: 0 0 35px rgba(124, 58, 237, 0.35);
+}
+
+.step-title {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: var(--space-3);
+}
+
+.step-desc {
+  font-size: var(--fs-base);
+  color: var(--color-text-muted);
+  line-height: var(--lh-normal);
+  max-width: 320px;
+}
+
+@media (max-width: 900px) {
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+  }
+
+  .steps-grid::before {
+    display: none;
+  }
+}

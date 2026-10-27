@@ -1,0 +1,382 @@
+/**
+ * NT AI Writer - Consultation / Registration Section Styles
+ * Section Form tư vấn kết nối Google Form (Nền trắng hiện đại)
+ */
+
+.consultation-section {
+  padding-top: var(--space-20);
+  padding-bottom: var(--space-20);
+  background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-subtle) 100%);
+  border-top: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.consultation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+/* --- Left Column: Info & Benefits --- */
+.consultation-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.consultation-title {
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-weight: 800;
+  color: var(--color-text-main);
+  line-height: var(--lh-tight);
+  margin-bottom: var(--space-4);
+  letter-spacing: -0.02em;
+}
+
+.consultation-desc {
+  font-size: var(--fs-lg);
+  color: var(--color-text-muted);
+  line-height: var(--lh-relaxed);
+  margin-bottom: var(--space-8);
+}
+
+.consultation-benefits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--trans-base);
+}
+
+.benefit-item:hover {
+  border-color: var(--color-border-hover);
+  transform: translateX(4px);
+  box-shadow: var(--shadow-md);
+}
+
+.benefit-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #ecfdf5;
+  border: 1px solid #d1fae5;
+  color: #059669;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.benefit-title {
+  font-size: var(--fs-base);
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: 2px;
+}
+
+.benefit-desc {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  line-height: var(--lh-normal);
+}
+
+/* --- Right Column: Form Card --- */
+.consultation-form-wrapper {
+  position: relative;
+}
+
+.consultation-card {
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-xl);
+  position: relative;
+}
+
+.form-header {
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.form-header-title {
+  font-size: var(--fs-2xl);
+  font-weight: 800;
+  color: var(--color-text-main);
+  margin-bottom: var(--space-1);
+}
+
+.form-header-subtitle {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+}
+
+/* Form Groups & Inputs */
+.form-group {
+  margin-bottom: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--color-text-main);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.form-required {
+  color: #ef4444;
+}
+
+.form-input, .form-select {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: var(--fs-base);
+  color: var(--color-text-main);
+  background: var(--color-bg-subtle);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: all var(--trans-fast);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-input::placeholder {
+  color: #94a3b8;
+}
+
+.form-input:focus, .form-select:focus {
+  background: #ffffff;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.form-input.is-invalid, .form-select.is-invalid {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+.form-error-msg {
+  font-size: var(--fs-xs);
+  color: #ef4444;
+  display: none;
+  margin-top: 2px;
+}
+
+.form-input.is-invalid + .form-error-msg,
+.form-select.is-invalid + .form-error-msg {
+  display: block;
+}
+
+/* Custom Select Arrow */
+.form-select-wrap {
+  position: relative;
+}
+
+.form-select-wrap::after {
+  content: '';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 6px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+}
+
+.form-submit-btn {
+  margin-top: var(--space-4);
+  width: 100%;
+  padding: 14px 28px;
+  font-size: var(--fs-base);
+  font-weight: 700;
+  border-radius: var(--radius-full);
+}
+
+.form-privacy-note {
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--color-text-dim);
+  margin-top: var(--space-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.form-privacy-note svg {
+  color: #059669;
+}
+
+/* --- Success State Screen --- */
+.form-success-state {
+  text-align: center;
+  padding: var(--space-12) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.success-icon-box {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: #ecfdf5;
+  border: 2px solid #a7f3d0;
+  color: #059669;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-5);
+  box-shadow: 0 4px 20px rgba(5, 150, 105, 0.2);
+}
+
+.success-title {
+  font-size: var(--fs-2xl);
+  font-weight: 800;
+  color: var(--color-text-main);
+  margin-bottom: var(--space-3);
+}
+
+.success-message {
+  font-size: var(--fs-base);
+  color: var(--color-text-muted);
+  line-height: var(--lh-relaxed);
+  max-width: 440px;
+  margin-bottom: var(--space-6);
+}
+
+/* --- Invoice Summary Card in Success Screen --- */
+.invoice-summary-card {
+  width: 100%;
+  max-width: 460px;
+  background: #f8fafc;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  margin: var(--space-4) 0 var(--space-6);
+  text-align: left;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.invoice-card-header {
+  padding: 12px 18px;
+  background: #f1f5f9;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.invoice-badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #047857;
+  background: #d1fae5;
+  border: 1px solid #a7f3d0;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.invoice-code {
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  letter-spacing: 0.02em;
+}
+
+.invoice-card-body {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.invoice-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--fs-sm);
+}
+
+.invoice-label {
+  color: var(--color-text-muted);
+}
+
+.invoice-val {
+  color: var(--color-text-main);
+  text-align: right;
+  word-break: break-all;
+}
+
+.invoice-price {
+  font-size: var(--fs-base);
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.invoice-card-footer {
+  padding: 12px 18px;
+  background: #f8fafc;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.delivery-badge-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-xs);
+  color: #047857;
+  font-weight: 600;
+}
+
+.delivery-badge-item svg {
+  flex-shrink: 0;
+  color: #059669;
+}
+
+.delivery-badge-item.delivery-zalo {
+  color: #0284c7;
+}
+
+.delivery-badge-item.delivery-zalo svg {
+  color: #0284c7;
+}
+
+@media (max-width: 960px) {
+  .consultation-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .consultation-card {
+    padding: var(--space-6);
+  }
+}
