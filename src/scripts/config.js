@@ -4,7 +4,7 @@
 
 export const APP_CONFIG = {
   siteName: 'NT AI Writer',
-  siteUrl: import.meta.env.VITE_SITE_URL || 'https://username.github.io/toolwriteseo',
+  siteUrl: import.meta.env.VITE_SITE_URL || 'https://share4happy.github.io/tool_ai_writer',
   basePath: import.meta.env.VITE_BASE_PATH || '/',
   
   // Cấu hình WordPress REST API lấy bài viết động
