@@ -40,8 +40,8 @@ export const APP_CONFIG = {
 
   // Cấu hình Zalo Bot API (Gửi tin nhắn & kết bạn tự động)
   zaloBotApi: {
-    // URL gateway (ví dụ: https://sms-service.talab.io.vn/api-gateway/ hoặc proxy)
-    baseUrl: import.meta.env.VITE_ZALO_API_BASE_URL || 'https://sms-service.talab.io.vn/api-gateway/',
+    // URL gateway (ví dụ: https://sms-service.talab.io.vn/api/gateway/v1.0 hoặc proxy)
+    baseUrl: import.meta.env.VITE_ZALO_API_BASE_URL || 'https://sms-service.talab.io.vn/api/gateway/v1.0',
     botId: import.meta.env.VITE_ZALO_BOT_ID || '',
     apiKey: import.meta.env.VITE_ZALO_API_KEY || '',
     mode: 'safe',
