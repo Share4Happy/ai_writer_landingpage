@@ -36,11 +36,10 @@ export const APP_CONFIG = {
     // API Key / Bearer Token xác thực nếu có
     apiKey: import.meta.env.VITE_INVOICE_API_KEY || '',
     currency: 'VND',
-    // Việc gửi Email hoá đơn + tin nhắn Zalo do hệ thống hoá đơn đảm nhận.
-    // Backend hiện treo (không phản hồi > 90s) khi sendEmail = true -> chỉ bật lại sau khi backend fix.
-    autoSendEmail: false,
+    // Backend đã fix xong timeout - bật lại gửi email và Zalo tự động
+    autoSendEmail: true,
     // Giới hạn thời gian chờ (ms) để form không bị treo spinner vô hạn
-    timeoutMs: 20000,
+    timeoutMs: 90000, // Tăng lên 90s để đủ thời gian backend gửi email + Zalo
   },
 
   // Carousel settings
