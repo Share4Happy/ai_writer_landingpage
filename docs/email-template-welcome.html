@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chào mừng bạn đến với NT AI Writer</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      -webkit-font-smoothing: antialiased;
+    }
+    .email-wrapper {
+      width: 100%;
+      background-color: #f5f7fa;
+      padding: 40px 20px;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    .email-header {
+      background: linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #8B5CF6 100%);
+      padding: 40px 30px;
+      text-align: center;
+      color: #ffffff;
+    }
+    .logo-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    .logo-text {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .header-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0 0 12px 0;
+      line-height: 1.3;
+    }
+    .header-subtitle {
+      font-size: 16px;
+      margin: 0;
+      opacity: 0.95;
+      line-height: 1.5;
+    }
+    .email-body {
+      padding: 40px 30px;
+    }
+    .greeting {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1e293b;
+      margin: 0 0 20px 0;
+    }
+    .content-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #475569;
+      margin: 0 0 16px 0;
+    }
+    .info-card {
+      background: #f8fafc;
+      border-left: 4px solid #2563EB;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .info-row:last-child {
+      border-bottom: none;
+    }
+    .info-label {
+      font-size: 14px;
+      color: #64748b;
+      font-weight: 500;
+    }
+    .info-value {
+      font-size: 15px;
+      color: #1e293b;
+      font-weight: 600;
+    }
+    .benefits-list {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+    .benefits-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1e293b;
+      margin: 0 0 16px 0;
+    }
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .benefit-item:last-child {
+      margin-bottom: 0;
+    }
+    .check-icon {
+      width: 20px;
+      height: 20px;
+      background: #10b981;
+      border-radius: 50%;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .benefit-text {
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .cta-section {
+      text-align: center;
+      margin: 32px 0;
+    }
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 16px 40px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+    }
+    .next-steps {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+    .next-steps-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #92400e;
+      margin: 0 0 12px 0;
+    }
+    .next-steps-list {
+      margin: 0;
+      padding-left: 20px;
+      color: #78350f;
+    }
+    .next-steps-list li {
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+    .support-section {
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 24px 0;
+      text-align: center;
+    }
+    .support-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1e293b;
+      margin: 0 0 12px 0;
+    }
+    .support-text {
+      font-size: 14px;
+      color: #475569;
+      margin: 0 0 16px 0;
+    }
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #2563EB;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .email-footer {
+      background: #f8fafc;
+      padding: 30px;
+      text-align: center;
+      border-top: 1px solid #e2e8f0;
+    }
+    .footer-text {
+      font-size: 13px;
+      color: #64748b;
+      margin: 0 0 8px 0;
+      line-height: 1.6;
+    }
+    .footer-links {
+      margin: 16px 0 0 0;
+    }
+    .footer-link {
+      color: #2563EB;
+      text-decoration: none;
+      font-size: 13px;
+      margin: 0 12px;
+    }
+    .footer-link:hover {
+      text-decoration: underline;
+    }
+    @media only screen and (max-width: 600px) {
+      .email-wrapper {
+        padding: 20px 10px;
+      }
+      .email-header {
+        padding: 30px 20px;
+      }
+      .header-title {
+        font-size: 24px;
+      }
+      .email-body {
+        padding: 30px 20px;
+      }
+      .contact-info {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="email-wrapper">
+    <div class="email-container">
+      <!-- Header -->
+      <div class="email-header">
+        <div class="logo-box">
+          <div class="logo-icon">✨</div>
+          <div class="logo-text">NT AI Writer</div>
+        </div>
+        <h1 class="header-title">Chào mừng bạn đến với NT AI Writer!</h1>
+        <p class="header-subtitle">Cảm ơn bạn đã đăng ký. Chúng tôi rất vui được đồng hành cùng bạn!</p>
+      </div>
+
+      <!-- Body -->
+      <div class="email-body">
+        <p class="greeting">Xin chào {{CUSTOMER_NAME}},</p>
+        
+        <p class="content-text">
+          Cảm ơn bạn đã đăng ký gói dịch vụ <strong>{{PACKAGE_NAME}}</strong> của NT AI Writer! 
+          Chúng tôi rất phấn khích khi được hỗ trợ bạn tự động hóa quy trình viết bài SEO cho website WordPress.
+        </p>
+
+        <!-- Thông tin đăng ký -->
+        <div class="info-card">
+          <div class="info-row">
+            <span class="info-label">Gói dịch vụ:</span>
+            <span class="info-value">{{PACKAGE_NAME}}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Chu kỳ thanh toán:</span>
+            <span class="info-value">{{BILLING_CYCLE}}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Email:</span>
+            <span class="info-value">{{CUSTOMER_EMAIL}}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Số điện thoại/Zalo:</span>
+            <span class="info-value">{{CUSTOMER_PHONE}}</span>
+          </div>
+        </div>
+
+        <p class="content-text">
+          Hoá đơn thanh toán điện tử đã được gửi kèm theo email này. 
+          Bạn cũng sẽ nhận được tin nhắn xác nhận qua Zalo trong vài phút tới.
+        </p>
+
+        <!-- Lợi ích -->
+        <div class="benefits-list">
+          <h3 class="benefits-title">🚀 Bạn sắp được trải nghiệm:</h3>
+          <div class="benefit-item">
+            <div class="check-icon">✓</div>
+            <p class="benefit-text"><strong>Nghiên cứu từ khóa thông minh</strong> – Tự động phân tích và gợi ý từ khóa LSI, từ khóa đuôi dài</p>
+          </div>
+          <div class="benefit-item">
+            <div class="check-icon">✓</div>
+            <p class="benefit-text"><strong>Tạo tiêu đề hàng loạt</strong> – Sinh tiêu đề hấp dẫn, tự động kiểm tra trùng lặp</p>
+          </div>
+          <div class="benefit-item">
+            <div class="check-icon">✓</div>
+            <p class="benefit-text"><strong>Viết bài chuẩn SEO</strong> – AI viết bài chuyên sâu với cấu trúc H2/H3 tối ưu</p>
+          </div>
+          <div class="benefit-item">
+            <div class="check-icon">✓</div>
+            <p class="benefit-text"><strong>Tự động chèn link & ảnh</strong> – Internal link thông minh, featured image AI</p>
+          </div>
+          <div class="benefit-item">
+            <div class="check-icon">✓</div>
+            <p class="benefit-text"><strong>Lên lịch đăng bài</strong> – Xuất bản tự động theo lịch trình bạn thiết lập</p>
+          </div>
+          <div class="benefit-item">
+            <div class="check-icon">✓</div>
+            <p class="benefit-text"><strong>Task Manager</strong> – Theo dõi tiến độ, quản lý bài nháp và lỗi xuất bản</p>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+          <a href="{{INVOICE_VIEW_URL}}" class="cta-button">Xem Hoá Đơn & Hướng Dẫn Thanh Toán</a>
+        </div>
+
+        <!-- Bước tiếp theo -->
+        <div class="next-steps">
+          <h3 class="next-steps-title">📋 Các bước tiếp theo:</h3>
+          <ol class="next-steps-list">
+            <li><strong>Thanh toán hoá đơn</strong> qua QR Code trong email hoặc chuyển khoản theo thông tin đã gửi</li>
+            <li><strong>Đội tư vấn sẽ liên hệ bạn</strong> qua Zalo/SĐT trong vòng <strong>15 phút</strong> để hỗ trợ kích hoạt</li>
+            <li><strong>Cài đặt plugin</strong> NT AI Writer trên WordPress của bạn với sự hỗ trợ 1-1 từ kỹ thuật viên</li>
+            <li><strong>Bắt đầu viết bài</strong> chuẩn SEO tự động ngay sau khi kích hoạt thành công!</li>
+          </ol>
+        </div>
+
+        <p class="content-text">
+          Nếu bạn có bất kỳ câu hỏi nào, đừng ngần ngại liên hệ với chúng tôi. 
+          Đội ngũ hỗ trợ luôn sẵn sàng giúp đỡ bạn 24/7!
+        </p>
+
+        <!-- Hỗ trợ -->
+        <div class="support-section">
+          <h3 class="support-title">💬 Cần hỗ trợ?</h3>
+          <p class="support-text">Liên hệ với chúng tôi qua:</p>
+          <div class="contact-info">
+            <a href="tel:+84812305046" class="contact-item">
+              📞 Hotline: 0812 305 046
+            </a>
+            <a href="https://zalo.me/0812305046" class="contact-item">
+              💬 Zalo: 0812 305 046
+            </a>
+            <a href="mailto:support@ntaiwriter.com" class="contact-item">
+              ✉️ support@ntaiwriter.com
+            </a>
+          </div>
+        </div>
+
+        <p class="content-text" style="margin-top: 32px;">
+          Chúc bạn có trải nghiệm tuyệt vời với NT AI Writer! 🚀
+        </p>
+
+        <p class="content-text" style="margin-top: 24px; font-weight: 600;">
+          Trân trọng,<br>
+          Đội ngũ NT AI Writer
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <div class="email-footer">
+        <p class="footer-text">
+          © 2026 NT AI Writer. Tất cả quyền được bảo lưu.<br>
+          Plugin viết bài chuẩn SEO bằng AI cho WordPress
+        </p>
+        <div class="footer-links">
+          <a href="https://aiwriter.ntcore.io.vn" class="footer-link">Website</a>
+          <a href="https://aiwriter.ntcore.io.vn/#faq" class="footer-link">FAQ</a>
+          <a href="mailto:support@ntaiwriter.com" class="footer-link">Hỗ trợ</a>
+        </div>
+        <p class="footer-text" style="margin-top: 16px; font-size: 12px;">
+          Bạn nhận được email này vì đã đăng ký dịch vụ NT AI Writer.<br>
+          Nếu có thắc mắc, vui lòng liên hệ support@ntaiwriter.com
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
