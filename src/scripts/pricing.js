@@ -4,6 +4,13 @@
 
 import { APP_CONFIG } from './config.js';
 
+// Chu kỳ thanh toán đang được chọn trên bảng giá ('monthly' | 'yearly')
+let currentBillingCycle = 'monthly';
+
+export function getBillingCycle() {
+  return currentBillingCycle;
+}
+
 export function initPricing() {
   const toggleMonthly = document.getElementById('billing-monthly');
   const toggleYearly = document.getElementById('billing-yearly');
@@ -15,6 +22,9 @@ export function initPricing() {
 
   function renderPricingCards() {
     const { plans, yearlyDiscount } = APP_CONFIG.pricing;
+
+    // Đồng bộ chu kỳ hiện tại để form tạo hoá đơn dùng đúng giá
+    currentBillingCycle = isYearly ? 'yearly' : 'monthly';
 
     pricingCardsContainer.innerHTML = plans.map((plan) => {
       const isFree = plan.monthlyPriceUsd === 0;

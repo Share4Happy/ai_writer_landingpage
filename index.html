@@ -46,6 +46,13 @@
     "applicationCategory": "BusinessApplication",
     "description": "Plugin viết bài chuẩn SEO bằng AI cho WordPress tự động từ nghiên cứu từ khóa, sinh tiêu đề đến xuất bản theo lịch.",
     "url": "https://aiwriter.share4happy.com/",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+84-812-305-046",
+      "contactType": "customer support",
+      "areaServed": "VN",
+      "availableLanguage": ["Vietnamese"]
+    },
     "offers": [
       {
         "@type": "Offer",
@@ -671,6 +678,12 @@
               <div class="form-header">
                 <h3 class="form-header-title">Đăng ký tư vấn & Dùng thử</h3>
                 <p class="form-header-subtitle">Vui lòng điền thông tin để được hỗ trợ tốt nhất</p>
+                <a class="form-hotline" href="tel:+84812305046">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                  <span>Hotline / Zalo: <strong>0812 305 046</strong></span>
+                </a>
               </div>
 
               <!-- Form Element -->
@@ -787,7 +800,7 @@
                   <div class="invoice-card-body">
                     <div class="invoice-row">
                       <span class="invoice-label">Gói dịch vụ:</span>
-                      <span class="invoice-val font-semibold" id="success-package-name">Grow ($19 / tháng)</span>
+                      <span class="invoice-val font-semibold" id="success-package-name">Grow (thanh toán theo tháng)</span>
                     </div>
                     <div class="invoice-row">
                       <span class="invoice-label">Tổng thanh toán:</span>
@@ -798,25 +811,26 @@
                       <span class="invoice-val font-semibold" id="success-email-dest">khachhang@email.com</span>
                     </div>
                   </div>
+
                   <div class="invoice-card-footer">
                     <div class="delivery-badge-item">
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
                       </svg>
-                      <span>Email: Đã gửi kèm file hoá đơn PDF</span>
+                      <span id="success-email-status">Email: Hoá đơn điện tử được gửi tới hộp thư của bạn</span>
                     </div>
                     <div class="delivery-badge-item delivery-zalo">
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.5 5.42 3.84 7.08L5 22l4.29-1.43C10.15 20.82 11.06 21 12 21c5.52 0 10-4.03 10-9s-4.48-9-10-9zm-1.5 12.5h-2v-5h2v5zm4 0h-2v-3.5h-1v-1.5h3v5z"/>
                       </svg>
-                      <span id="success-zalo-status">Zalo: Đã gửi tin nhắn & hoá đơn tới SĐT</span>
+                      <span id="success-zalo-status">Zalo: Tin nhắn xác nhận được gửi tới SĐT của bạn</span>
                     </div>
                   </div>
                 </div>
 
                 <p class="success-message" id="success-detailed-message">
-                  Vui lòng kiểm tra hộp thư đến (hoặc thư mục Spam/Quảng cáo). Ban tư vấn sẽ liên hệ qua Zalo/SĐT trong vòng 15 phút để hỗ trợ bạn kích hoạt plugin.
+                  Ban tư vấn sẽ liên hệ qua Zalo/SĐT trong vòng 15 phút để hỗ trợ bạn kích hoạt plugin.
                 </p>
                 <button type="button" id="btn-form-reset" class="btn btn-outline btn-sm">Gửi lại thông tin khác</button>
               </div>
@@ -849,64 +863,13 @@
             <div class="faq-answer-wrapper">
               <div class="faq-answer-content">
                 <p class="faq-answer-text">
-                  NT AI Writer là plugin cài đặt trực tiếp trên WordPress của bạn. Bạn không cần truy cập công cụ bên ngoài, toàn bộ thao tác từ nghiên cứu từ khóa, tạo tiêu đề, viết bài đến lên lịch xuất bản đều diễn ra ngay trong trang quản trị <code>wp-admin</code>.
+                  NT AI Writer là plugin cài đặt trực tiếp trên WordPress của bạn, không phải một công cụ web bên ngoài. Bạn không cần truy cập trang quản trị nào khác: toàn bộ thao tác từ nghiên cứu từ khóa, tạo tiêu đề, viết bài đến lên lịch xuất bản đều diễn ra ngay trong <code>wp-admin</code>. Bài viết và dữ liệu được lưu trên chính website của bạn, không bị khóa vào nền tảng của bên thứ ba.
                 </p>
               </div>
             </div>
           </div>
 
           <!-- FAQ 2 -->
-          <div class="faq-item">
-            <button type="button" class="faq-question" aria-expanded="false">
-              <span>Tôi có thể xem trước và chỉnh sửa bài viết trước khi đăng không?</span>
-              <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </button>
-            <div class="faq-answer-wrapper">
-              <div class="faq-answer-content">
-                <p class="faq-answer-text">
-                  Có. Bạn hoàn toàn có thể xem trước, duyệt dàn ý Heading H2/H3 trước khi sinh bài và chỉnh sửa trực tiếp nội dung trong trình soạn thảo Gutenberg / Classic Editor quen thuộc của WordPress trước khi quyết định xuất bản.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- FAQ 3 -->
-          <div class="faq-item">
-            <button type="button" class="faq-question" aria-expanded="false">
-              <span>Hệ thống có tự động đăng bài theo lịch ngầm không?</span>
-              <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </button>
-            <div class="faq-answer-wrapper">
-              <div class="faq-answer-content">
-                <p class="faq-answer-text">
-                  Có. Bạn chỉ cần bật chế độ tự động viết, đưa các tiêu đề vào danh sách hàng đợi (Queue) và thiết lập tần suất (ví dụ 2 bài/ngày). Hệ thống sẽ tự động chạy ngầm qua WordPress Cron để tạo và xuất bản đúng lịch trình mà bạn không cần mở máy.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- FAQ 4 -->
-          <div class="faq-item">
-            <button type="button" class="faq-question" aria-expanded="false">
-              <span>Tôi có thể chọn ngôn ngữ bài viết được không?</span>
-              <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </button>
-            <div class="faq-answer-wrapper">
-              <div class="faq-answer-content">
-                <p class="faq-answer-text">
-                  Có. Bạn có thể chọn ngôn ngữ đầu ra trong phần cấu hình bài viết (Tiếng Việt, Tiếng Anh, Tiếng Pháp, Tiếng Nhật...). AI sẽ viết bằng ngôn ngữ tự nhiên, mạch lạc theo đúng đối tượng độc giả mục tiêu.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- FAQ 5 -->
           <div class="faq-item">
             <button type="button" class="faq-question" aria-expanded="false">
               <span>Tôi có cần phải mua API key AI riêng không hay gói đã có sẵn credit?</span>
@@ -917,13 +880,13 @@
             <div class="faq-answer-wrapper">
               <div class="faq-answer-content">
                 <p class="faq-answer-text">
-                  Mỗi gói dịch vụ của NT AI Writer đã được tích hợp sẵn hạn mức số bài viết hàng tháng (credit) tương ứng. Bạn chỉ cần cài đặt plugin và kích hoạt bản quyền là dùng được ngay. Đối với gói Corp, bạn có thêm tùy chọn kết nối API key riêng nếu muốn chạy số lượng lớn không giới hạn.
+                  Mỗi gói dịch vụ đã tích hợp sẵn hạn mức bài viết hàng tháng (credit) tương ứng, bạn chỉ cần cài plugin và kích hoạt bản quyền là dùng được ngay – không cần thẻ quốc tế, không cần tự mua API key AI. Gói Corp có thêm tùy chọn kết nối API key riêng nếu bạn muốn chủ động chi phí khi chạy số lượng lớn. Hết hạn mức, bạn có thể nâng gói hoặc mua thêm credit mà không mất dữ liệu đã viết.
                 </p>
               </div>
             </div>
           </div>
 
-          <!-- FAQ 6 -->
+          <!-- FAQ 3 -->
           <div class="faq-item">
             <button type="button" class="faq-question" aria-expanded="false">
               <span>Plugin có tương thích với Yoast SEO hay Rank Math không?</span>
@@ -934,10 +897,78 @@
             <div class="faq-answer-wrapper">
               <div class="faq-answer-content">
                 <p class="faq-answer-text">
-                  Hoàn toàn tương thích! NT AI Writer tự động điền thẻ Meta Title, Meta Description và Focus Keyword chuẩn xác vào cả hai plugin SEO phổ biến nhất hiện nay là Yoast SEO và Rank Math, giúp bài viết đạt điểm xanh SEO ngay khi vừa tạo xong.
+                  Hoàn toàn tương thích. NT AI Writer tự động điền Meta Title, Meta Description, Focus Keyword và alt text cho ảnh vào cả Yoast SEO và Rank Math, giúp bài viết đạt điểm xanh SEO ngay khi vừa tạo xong. Plugin cũng xuất được Schema Article/FAQ và không xung đột với các plugin cache, bảo mật hay đa ngôn ngữ thông dụng.
                 </p>
               </div>
             </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              <span>Tôi có được dùng thử miễn phí trước khi trả tiền không?</span>
+              <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="faq-answer-wrapper">
+              <div class="faq-answer-content">
+                <p class="faq-answer-text">
+                  Có. Gói Free cho bạn 5 bài viết chuẩn SEO mỗi tháng, dùng vĩnh viễn và không cần nhập thẻ thanh toán. Bạn chỉ cần để lại thông tin ở form đăng ký, đội ngũ sẽ kích hoạt tài khoản và hỗ trợ cài đặt 1-1 qua Zalo. Muốn dùng thử đầy đủ tính năng trong 7 ngày, hãy ghi rõ trong phần ghi chú khi đăng ký.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 5 -->
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              <span>Thanh toán bằng cách nào và có xuất hoá đơn không?</span>
+              <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="faq-answer-wrapper">
+              <div class="faq-answer-content">
+                <p class="faq-answer-text">
+                  Sau khi đăng ký, hệ thống tạo hoá đơn điện tử và gửi đồng thời qua email và tin nhắn Zalo của bạn, kèm mã QR chuyển khoản ngân hàng (VietQR) và file PDF. Bạn thanh toán theo tháng hoặc theo năm (tiết kiệm 20%). Cần hoá đơn VAT cho doanh nghiệp, bạn chỉ cần phản hồi email hoá đơn hoặc gọi hotline <a href="tel:+84812305046">0812 305 046</a> để được xuất theo thông tin công ty.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 6 -->
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              <span>Dùng nội dung AI có bị Google phạt không?</span>
+              <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="faq-answer-wrapper">
+              <div class="faq-answer-content">
+                <p class="faq-answer-text">
+                  Google đánh giá theo chất lượng và mức độ hữu ích của nội dung, không phân biệt nội dung do người viết hay AI hỗ trợ. NT AI Writer tạo bài có cấu trúc heading rõ ràng, trả lời đúng intent từ khóa, chèn internal link và meta chuẩn SEO. Để an toàn nhất, bạn nên dành 2–3 phút review lại số liệu, kinh nghiệm thực tế và thêm hình ảnh riêng trước khi xuất bản.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- FAQ contact CTA -->
+        <div class="faq-contact">
+          <p class="faq-contact-text">
+            Vẫn còn thắc mắc chưa được giải đáp? Gọi hoặc nhắn Zalo để được tư vấn trực tiếp.
+          </p>
+          <div class="faq-contact-actions">
+            <a href="tel:+84812305046" class="btn btn-primary btn-sm">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              0812 305 046
+            </a>
+            <a href="#dang-ky" class="btn btn-outline btn-sm">Đăng ký tư vấn</a>
           </div>
         </div>
       </div>
@@ -1005,6 +1036,7 @@
         <div>
           <h4 class="footer-col-title">Liên hệ</h4>
           <ul class="footer-links">
+            <li><a href="tel:+84812305046" class="footer-link">Hotline / Zalo: 0812 305 046</a></li>
             <li><span class="footer-link">Email: contact@share4happy.com</span></li>
             <li><span class="footer-link">Hỗ trợ: 24/7 qua Zalo & Email</span></li>
             <li><span class="footer-link">Nền tảng: WordPress 5.8+</span></li>

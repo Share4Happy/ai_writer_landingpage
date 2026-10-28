@@ -115,19 +115,10 @@ Các biến môi trường hỗ trợ:
   ```
 - **Khi chưa có API URL thật:** Hệ thống tự động kích hoạt **Simulation Mode** (ghi log payload chi tiết với màu sắc nổi bật trong DevTools Console và trả về mã hoá đơn ngẫu nhiên kèm chi tiết thanh toán cho khách hàng xem trên giao diện).
 
-### 4.6 Cấu hình Zalo Bot Batch API (Gửi tin nhắn & kết bạn tự động)
-- Sau khi gửi email hoá đơn, hệ thống tự động gọi API Zalo Bot để gửi tin nhắn kèm mã hóa đơn và link tải file PDF trực tiếp tới số điện thoại của khách hàng.
-- Đồng thời tự động gửi lời mời kết bạn qua Zalo kèm tiền tố `alias_prefix: "KH_NT_"` để bot phân loại và lưu danh bạ.
-- Cấu hình qua file `.env`:
-  ```env
-  VITE_ZALO_API_BASE_URL=https://api.yourdomain.com/api/gateway/v1.0
-  VITE_ZALO_BOT_ID=YOUR_BOT_ID
-  VITE_ZALO_API_KEY=YOUR_ZALO_API_KEY
-  ```
-- **Endpoint gọi tự động:**
-  - Nhắn tin: `POST /bots/{bot_id}/messages/send-batch` (với `mode: "safe"`)
-  - Kết bạn: `POST /bots/{bot_id}/friends/requests/send-batch` (với `alias_prefix: "KH_NT_"`)
-- **Khi chưa có API Key:** Hệ thống kích hoạt **Zalo Simulation Mode** (tự động chuẩn hóa số điện thoại theo định dạng chuẩn Việt Nam `09...`, ghi log payload ra console và cập nhật huy hiệu Zalo trên màn hình thành công).
+### 4.6 Thông báo Zalo (đã chuyển sang hệ thống hoá đơn)
+- Landing page **không còn gửi tin nhắn Zalo** và không lưu API key Zalo trong bundle.
+- Sau khi landing page gọi `POST /api/invoices/quick-create`, hệ thống hoá đơn chịu trách nhiệm gửi Email hoá đơn và tin nhắn Zalo cho khách hàng.
+- Landing page chỉ hiển thị xác nhận: hoá đơn đã tạo + thông báo được gửi qua Email và Zalo. Không hiển thị QR/mã thanh toán/link PDF trên trang.
 
 ---
 

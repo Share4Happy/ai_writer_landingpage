@@ -6,6 +6,7 @@
  */
 
 import { APP_CONFIG } from './config.js';
+import { getBillingCycle } from './pricing.js';
 
 let lastSubmitTime = 0;
 
@@ -88,11 +89,10 @@ export function initConsultationForm() {
     }
 
     try {
-      // Thực hiện gửi song song 3 kênh: Google Form + Invoice API + Zalo Bot Batch API
-      const [googleFormResult, invoiceResult, zaloResult] = await Promise.allSettled([
+      // Bước 1: Gửi song song Google Form + API tạo hoá đơn (độc lập nhau)
+      const [googleFormResult, invoiceResult] = await Promise.allSettled([
         sendGoogleForm({ actionUrl, formData, form }),
         sendInvoiceApi({ customer, plan, invoiceCode }),
-        sendZaloBotNotification({ customer, plan, invoiceCode }),
       ]);
 
       if (invoiceResult.status === 'rejected') {
@@ -101,20 +101,19 @@ export function initConsultationForm() {
       if (googleFormResult.status === 'rejected') {
         console.warn('[Google Form Error]:', googleFormResult.reason);
       }
-      if (zaloResult.status === 'rejected') {
-        console.warn('[Zalo Bot API Error]:', zaloResult.reason);
-      }
 
-      // Cập nhật thông tin hoá đơn & trạng thái gửi Zalo vào màn hình thông báo thành công
-      populateSuccessCard({ customer, plan, invoiceCode, successState });
+      // Hoá đơn thật do backend trả về (invoiceNumber, grandTotal...)
+      const invoice = invoiceResult.status === 'fulfilled' ? invoiceResult.value : null;
+
+      // Cập nhật nội dung xác nhận (hoá đơn được gửi qua email + Zalo bởi hệ thống hoá đơn)
+      populateSuccessCard({ customer, plan, invoiceCode, invoice, successState });
 
       // Hiển thị màn hình thành công
       showSuccessState(form, successState);
       form.reset();
-
     } catch (error) {
       console.error('Lỗi trong quá trình gửi form:', error);
-      populateSuccessCard({ customer, plan, invoiceCode, successState });
+      populateSuccessCard({ customer, plan, invoiceCode, invoice: null, successState });
       showSuccessState(form, successState);
       form.reset();
     } finally {
@@ -166,11 +165,39 @@ async function sendGoogleForm({ actionUrl, formData, form }) {
 }
 
 /**
- * Gửi yêu cầu tới API tạo hoá đơn và gửi email
+ * Gửi yêu cầu tới API tạo hoá đơn (Invoice-AIR API v1.0)
+ * Endpoint: POST /api/invoices/quick-create
+ * Lưu ý: backend tính grandTotal theo `amountVnd` (trường chargeAmount bị bỏ qua)
  */
 async function sendInvoiceApi({ customer, plan, invoiceCode }) {
-  const { endpoint, apiKey, currency, autoSendEmail } = APP_CONFIG.invoiceApi;
+  const { endpoint, apiKey, currency, autoSendEmail, timeoutMs } = APP_CONFIG.invoiceApi;
   const { pageSource } = APP_CONFIG.googleForm;
+  const { yearlyDiscount } = APP_CONFIG.pricing;
+
+  const billingCycle = getBillingCycle();
+  const isYearly = billingCycle === 'yearly';
+
+  // Gói trả theo năm: giá tháng sau chiết khấu x 12 (khớp cách UI hiển thị "giảm 20%")
+  const monthlyVnd = isYearly ? Math.round(plan.priceVnd * (1 - yearlyDiscount)) : plan.priceVnd;
+  const monthlyUsd = isYearly ? Math.round(plan.priceUsd * (1 - yearlyDiscount)) : plan.priceUsd;
+  const amountVnd = isYearly ? monthlyVnd * 12 : monthlyVnd;
+  const amountUsd = isYearly ? monthlyUsd * 12 : monthlyUsd;
+
+  // Gói Free không cần xuất hoá đơn
+  if (amountVnd === 0) {
+    console.info('[Invoice API]: Gói Free – bỏ qua bước tạo hoá đơn.');
+    return {
+      success: true,
+      skipped: true,
+      invoiceNumber: invoiceCode,
+      paymentCode: '',
+      grandTotal: 0,
+      qrDataUrl: '',
+      viewUrl: '',
+      pdfUrl: '',
+      emailSent: false,
+    };
+  }
 
   const payload = {
     invoiceCode,
@@ -183,153 +210,77 @@ async function sendInvoiceApi({ customer, plan, invoiceCode }) {
     order: {
       packageId: plan.id,
       packageName: plan.name,
-      amountVnd: plan.priceVnd,
-      amountUsd: plan.priceUsd,
-      chargeAmount: currency === 'USD' ? plan.priceUsd : plan.priceVnd,
+      amountVnd,
+      amountUsd,
+      chargeAmount: currency === 'USD' ? amountUsd : amountVnd,
       currency: currency || 'VND',
-      billingCycle: 'monthly',
-      description: `Đăng ký gói ${plan.name} – NT AI Writer WordPress Plugin`,
+      billingCycle,
+      description: `Đăng ký gói ${plan.name} – NT AI Writer WordPress Plugin (${isYearly ? 'thanh toán theo năm' : 'thanh toán theo tháng'})`,
     },
     sendEmail: autoSendEmail,
     source: pageSource,
   };
 
-  if (endpoint && endpoint.trim() !== '') {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
+  if (!endpoint || endpoint.trim() === '') {
+    console.info(
+      '%c[Invoice API Simulation] Endpoint chưa cấu hình, payload:',
+      'color: #059669; font-weight: bold; font-size: 13px;',
+      payload
+    );
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    return {
+      success: false,
+      simulated: true,
+      invoiceNumber: invoiceCode,
+      grandTotal: amountVnd,
     };
-    if (apiKey && apiKey.trim() !== '') {
-      headers['Authorization'] = `Bearer ${apiKey.trim()}`;
-    }
+  }
 
+  const headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  };
+  if (apiKey && apiKey.trim() !== '') {
+    headers['Authorization'] = `Bearer ${apiKey.trim()}`;
+  }
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs || 20000);
+
+  try {
     const response = await fetch(endpoint, {
       method: 'POST',
       headers,
       body: JSON.stringify(payload),
+      signal: controller.signal,
     });
 
     if (!response.ok) {
-      throw new Error(`Invoice API HTTP ${response.status}: ${response.statusText}`);
+      const errText = await response.text().catch(() => '');
+      throw new Error(`Invoice API HTTP ${response.status}: ${response.statusText} ${errText}`.trim());
     }
 
-    const data = await response.json().catch(() => ({ success: true }));
+    const data = await response.json().catch(() => ({}));
     console.info('[Invoice API Success]:', data);
-    return data;
-  } else {
-    console.info(
-      '%c[Invoice API Simulation] Đã gửi yêu cầu tạo hoá đơn & gửi email:',
-      'color: #059669; font-weight: bold; font-size: 13px;',
-      payload
-    );
-    await new Promise((resolve) => setTimeout(resolve, 500));
+
     return {
-      success: true,
-      simulated: true,
+      success: data.success !== false,
       invoiceCode,
-      message: `Hoá đơn ${invoiceCode} đã được tạo và gửi tới email ${customer.email}`,
+      invoiceNumber: data.invoiceNumber || invoiceCode,
+      grandTotal: typeof data.grandTotal === 'number' ? data.grandTotal : amountVnd,
     };
+  } catch (err) {
+    if (err && err.name === 'AbortError') {
+      throw new Error(`Invoice API không phản hồi sau ${timeoutMs}ms`);
+    }
+    throw err;
+  } finally {
+    clearTimeout(timer);
   }
 }
 
 /**
- * Gửi tin nhắn Zalo kèm hoá đơn PDF & tự động kết bạn qua Zalo Bot Batch API
- * Endpoint: POST /bots/{bot_id}/messages/send-batch
- * Endpoint: POST /bots/{bot_id}/friends/requests/send-batch
- */
-async function sendZaloBotNotification({ customer, plan, invoiceCode }) {
-  const { baseUrl, botId, apiKey, mode, autoFriendRequest, aliasPrefix } = APP_CONFIG.zaloBotApi;
-  const cleanPhone = formatPhoneForZalo(customer.phone);
-
-  const invoicePdfUrl = `${window.location.origin}/invoices/${invoiceCode}.pdf`;
-
-  const messageText = 
-    `🎉 [NT AI Writer] Xác nhận đăng ký dịch vụ thành công!\n` +
-    `Xin chào Anh/Chị ${customer.fullName},\n` +
-    `Cảm ơn Anh/Chị đã lựa chọn gói: ${plan.name} (${plan.formattedUsd}/tháng).\n` +
-    `• Mã hóa đơn điện tử: #${invoiceCode}\n` +
-    `• Tổng thanh toán: ${plan.formattedVnd}\n` +
-    `• Email nhận hóa đơn: ${customer.email}\n` +
-    `• Link tải hóa đơn PDF: ${invoicePdfUrl}\n\n` +
-    `Chuyên viên hỗ trợ của NT AI Writer sẽ sớm nhắn tin trực tiếp qua Zalo này để hỗ trợ Anh/Chị kích hoạt tài khoản và cài đặt plugin WordPress nhanh chóng!`;
-
-  const messagePayload = {
-    recipients: [
-      { phone: cleanPhone },
-    ],
-    content: {
-      type: "text",
-      data: {
-        text: messageText,
-      },
-    },
-    mode: mode || "safe",
-  };
-
-  if (baseUrl && botId && apiKey && baseUrl.trim() !== '') {
-    const cleanBaseUrl = baseUrl.replace(/\/+$/, '');
-    const sendMsgUrl = `${cleanBaseUrl}/bots/${botId}/messages/send-batch`;
-
-    const headers = {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-    };
-
-    // 1. Gửi tin nhắn Zalo chứa nội dung xác nhận & link file PDF hoá đơn
-    const response = await fetch(sendMsgUrl, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(messagePayload),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Zalo Bot Send Message HTTP ${response.status}: ${response.statusText}`);
-    }
-
-    const data = await response.json().catch(() => ({ success: true }));
-    console.info('[Zalo Bot Message Result]:', data);
-
-    // 2. Gửi lời mời kết bạn tự động kèm alias_prefix (nếu bật)
-    if (autoFriendRequest) {
-      try {
-        const sendFriendUrl = `${cleanBaseUrl}/bots/${botId}/friends/requests/send-batch`;
-        const friendPayload = {
-          recipients: [{ phone: cleanPhone }],
-          alias_prefix: aliasPrefix || 'KH_NT_',
-        };
-
-        const friendRes = await fetch(sendFriendUrl, {
-          method: 'POST',
-          headers,
-          body: JSON.stringify(friendPayload),
-        });
-        const friendData = await friendRes.json().catch(() => ({ success: true }));
-        console.info('[Zalo Bot Friend Request Result]:', friendData);
-      } catch (errFriend) {
-        console.warn('[Zalo Bot Friend Request Warning]:', errFriend);
-      }
-    }
-
-    return data;
-  } else {
-    // Chế độ mô phỏng Zalo Bot API khi chưa điền API Key thật
-    console.info(
-      '%c[Zalo Bot Batch API - Mô phỏng]: Đã gửi tin nhắn & hoá đơn PDF qua Zalo tới: ' + cleanPhone,
-      'color: #0284c7; font-weight: bold; font-size: 13px;',
-      messagePayload
-    );
-    await new Promise((resolve) => setTimeout(resolve, 400));
-    return {
-      success: true,
-      simulated: true,
-      phone: cleanPhone,
-      message: `Đã gửi tin nhắn Zalo kèm hoá đơn ${invoiceCode} tới ${cleanPhone}`,
-    };
-  }
-}
-
-/**
- * Format số điện thoại chuẩn cho Zalo API (loại bỏ khoảng trắng, đổi +84 thành 0)
+ * Format số điện thoại hiển thị (loại bỏ khoảng trắng, đổi +84 thành 0)
  */
 function formatPhoneForZalo(phone) {
   if (!phone) return '';
@@ -389,15 +340,17 @@ function generateInvoiceCode() {
 }
 
 /**
- * Cập nhật nội dung thẻ tóm tắt hoá đơn trong màn hình thành công
+ * Cập nhật nội dung thẻ xác nhận trong màn hình thành công
+ * Hoá đơn/QR không hiển thị trên landing page — được hệ thống hoá đơn gửi qua Email + Zalo
  */
-function populateSuccessCard({ customer, plan, invoiceCode, successState }) {
+function populateSuccessCard({ customer, plan, invoiceCode, invoice, successState }) {
   if (!successState) return;
 
   const invoiceCodeEl = successState.querySelector('#success-invoice-code');
   const packageNameEl = successState.querySelector('#success-package-name');
   const packagePriceEl = successState.querySelector('#success-package-price');
   const emailDestEl = successState.querySelector('#success-email-dest');
+  const emailStatusEl = successState.querySelector('#success-email-status');
   const zaloStatusEl = successState.querySelector('#success-zalo-status');
   const messageEl = successState.querySelector('#success-detailed-message');
 
@@ -405,21 +358,33 @@ function populateSuccessCard({ customer, plan, invoiceCode, successState }) {
   const safePlanName = escapeHtml(plan.name);
   const safeEmail = escapeHtml(customer.email);
   const safePhone = escapeHtml(cleanPhone);
+  const billingLabel = getBillingCycle() === 'yearly' ? 'thanh toán theo năm' : 'thanh toán theo tháng';
 
-  if (invoiceCodeEl) invoiceCodeEl.textContent = `#${invoiceCode}`;
-  if (packageNameEl) packageNameEl.textContent = `${plan.name} (${plan.formattedUsd} / tháng)`;
-  if (packagePriceEl) packagePriceEl.textContent = plan.formattedVnd;
+  const hasInvoice = Boolean(invoice && invoice.success && invoice.invoiceNumber);
+  const displayCode = hasInvoice ? invoice.invoiceNumber : invoiceCode;
+  const totalText = invoice && typeof invoice.grandTotal === 'number' && invoice.grandTotal > 0
+    ? new Intl.NumberFormat('vi-VN').format(invoice.grandTotal) + ' đ'
+    : plan.formattedVnd;
+
+  if (invoiceCodeEl) invoiceCodeEl.textContent = `#${displayCode}`;
+  if (packageNameEl) packageNameEl.textContent = `${plan.name} (${billingLabel})`;
+  if (packagePriceEl) packagePriceEl.textContent = totalText;
   if (emailDestEl) emailDestEl.textContent = customer.email;
 
+  if (emailStatusEl) {
+    emailStatusEl.textContent = `Email: Hoá đơn điện tử được gửi tới ${customer.email}`;
+  }
+
   if (zaloStatusEl) {
-    zaloStatusEl.textContent = `Zalo: Đã gửi tin nhắn & hoá đơn tới SĐT ${cleanPhone}`;
+    zaloStatusEl.textContent = `Zalo: Tin nhắn xác nhận được gửi tới SĐT ${cleanPhone}`;
   }
 
   if (messageEl) {
-    messageEl.innerHTML = `
-      Hệ thống đã tự động xuất hóa đơn điện tử cho gói <strong>${safePlanName}</strong>, đồng thời gửi file PDF kèm về hộp thư <strong>${safeEmail}</strong> và qua Zalo số <strong>${safePhone}</strong>.<br>
-      Vui lòng kiểm tra hộp thư đến (hoặc hòm thư Quảng cáo/Spam) và tin nhắn Zalo. Ban tư vấn sẽ sớm liên hệ hỗ trợ bạn kích hoạt plugin.
-    `;
+    messageEl.innerHTML = hasInvoice
+      ? `Hệ thống đã tạo hoá đơn điện tử <strong>#${escapeHtml(displayCode)}</strong> cho gói <strong>${safePlanName}</strong> (${billingLabel}) với tổng thanh toán <strong>${escapeHtml(totalText)}</strong>.<br>
+         Hoá đơn PDF và mã thanh toán được gửi tới email <strong>${safeEmail}</strong> và tin nhắn Zalo số <strong>${safePhone}</strong>. Ban tư vấn sẽ liên hệ trong vòng 15 phút để hỗ trợ kích hoạt plugin.`
+      : `Hệ thống đã ghi nhận đăng ký của bạn cho gói <strong>${safePlanName}</strong>.<br>
+         Hoá đơn điện tử sẽ được gửi tới email <strong>${safeEmail}</strong> và tin nhắn Zalo số <strong>${safePhone}</strong>. Ban tư vấn sẽ liên hệ trong thời gian sớm nhất.`;
   }
 }
 

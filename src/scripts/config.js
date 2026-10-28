@@ -30,23 +30,16 @@ export const APP_CONFIG = {
 
   // Cấu hình API Tạo Hoá Đơn & Gửi Email
   invoiceApi: {
-    // Endpoint API tạo hoá đơn (điền URL tại đây hoặc qua biến môi trường VITE_INVOICE_API_URL)
-    endpoint: import.meta.env.VITE_INVOICE_API_URL || '',
+    // Endpoint API tạo hoá đơn nhanh (Invoice-AIR API v1.0)
+    endpoint: import.meta.env.VITE_INVOICE_API_URL || 'https://invoice-backend-5tbi.onrender.com/api/invoices/quick-create',
     // API Key / Bearer Token xác thực nếu có
     apiKey: import.meta.env.VITE_INVOICE_API_KEY || '',
     currency: 'VND',
-    autoSendEmail: true,
-  },
-
-  // Cấu hình Zalo Bot API (Gửi tin nhắn & kết bạn tự động)
-  zaloBotApi: {
-    // URL gateway (ví dụ: https://sms-service.talab.io.vn/api/gateway/v1.0 hoặc proxy)
-    baseUrl: import.meta.env.VITE_ZALO_API_BASE_URL || 'https://sms-service.talab.io.vn/api/gateway/v1.0',
-    botId: import.meta.env.VITE_ZALO_BOT_ID || '',
-    apiKey: import.meta.env.VITE_ZALO_API_KEY || '',
-    mode: 'safe',
-    autoFriendRequest: true,
-    aliasPrefix: 'KH_NTAI_',
+    // Việc gửi Email hoá đơn + tin nhắn Zalo do hệ thống hoá đơn đảm nhận.
+    // Backend hiện treo (không phản hồi > 90s) khi sendEmail = true -> chỉ bật lại sau khi backend fix.
+    autoSendEmail: false,
+    // Giới hạn thời gian chờ (ms) để form không bị treo spinner vô hạn
+    timeoutMs: 20000,
   },
 
   // Carousel settings

@@ -124,6 +124,35 @@
   color: var(--color-text-muted);
 }
 
+.form-hotline {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: var(--space-3);
+  padding: 6px 12px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--color-primary);
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: background var(--trans-fast), border-color var(--trans-fast);
+}
+
+.form-hotline:hover {
+  background: #dbeafe;
+  border-color: var(--color-primary);
+}
+
+.form-hotline svg {
+  flex-shrink: 0;
+}
+
+.form-hotline strong {
+  font-weight: 800;
+}
+
 /* Form Groups & Inputs */
 .form-group {
   margin-bottom: var(--space-5);

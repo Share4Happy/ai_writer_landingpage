@@ -19,6 +19,45 @@
   gap: var(--space-4);
 }
 
+/* --- Contact CTA cuối danh sách FAQ --- */
+.faq-contact {
+  margin-top: var(--space-10);
+  padding: var(--space-6);
+  text-align: center;
+  background: #f8fafc;
+  border: 1px dashed var(--color-border-hover, var(--color-border));
+  border-radius: var(--radius-lg);
+}
+
+.faq-contact-text {
+  font-size: var(--fs-base);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.faq-contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.faq-contact-actions .btn svg {
+  margin-right: 6px;
+}
+
+.faq-answer-text a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.faq-answer-text a:hover {
+  color: var(--color-primary-hover, var(--color-primary));
+}
+
 .faq-item {
   background: #ffffff;
   border: 1px solid var(--color-border);
