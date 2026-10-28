@@ -23,6 +23,7 @@ export const APP_CONFIG = {
       fullName: 'entry.1911338714', // Họ và Tên
       phone: 'entry.1427954621',    // Số điện thoại
       email: 'entry.1636694682',    // Email
+      emailType: 'entry.2001234567', // Loại Email (Email Cá nhân / Email Trường)
       package: 'entry.736251697',   // Gói dịch vụ muốn sử dụng (Free, Starter, Grow, Pro, Corp)
     },
     pageSource: 'Landing Page NT AI Writer',

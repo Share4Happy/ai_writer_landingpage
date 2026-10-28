@@ -64,12 +64,14 @@ export function initConsultationForm() {
     const fullNameVal = form.querySelector('#form-fullname')?.value?.trim() || '';
     const phoneVal = form.querySelector('#form-phone')?.value?.trim() || '';
     const emailVal = form.querySelector('#form-email')?.value?.trim() || '';
+    const emailTypeVal = form.querySelector('#form-email-type')?.value || '';
     const packageVal = packageSelect?.value || 'Grow';
 
     const customer = {
       fullName: fullNameVal,
       phone: phoneVal,
       email: emailVal,
+      emailType: emailTypeVal,
     };
 
     const plan = getPlanDetails(packageVal);
@@ -81,6 +83,9 @@ export function initConsultationForm() {
     formData.append(entries.fullName, fullNameVal); // entry.1911338714: Họ và Tên
     formData.append(entries.phone, phoneVal);       // entry.1427954621: Số điện thoại
     formData.append(entries.email, emailVal);       // entry.1636694682: Email
+    if (entries.emailType) {
+      formData.append(entries.emailType, emailTypeVal); // entry.2001234567: Loại Email
+    }
     if (entries.package) {
       formData.append(entries.package, plan.name);  // entry.736251697: Gói dịch vụ (Free/Starter/Grow/Pro/Corp)
     }
@@ -410,6 +415,7 @@ function validateForm(form) {
   const fullNameInput = form.querySelector('#form-fullname');
   const phoneInput = form.querySelector('#form-phone');
   const emailInput = form.querySelector('#form-email');
+  const emailTypeSelect = form.querySelector('#form-email-type');
 
   // Validate họ tên
   if (!fullNameInput.value.trim() || fullNameInput.value.trim().length < 2) {
@@ -436,6 +442,14 @@ function validateForm(form) {
     isValid = false;
   } else {
     markValid(emailInput);
+  }
+
+  // Validate loại email
+  if (!emailTypeSelect.value || emailTypeSelect.value === '') {
+    markInvalid(emailTypeSelect, 'Vui lòng chọn loại email');
+    isValid = false;
+  } else {
+    markValid(emailTypeSelect);
   }
 
   return isValid;
